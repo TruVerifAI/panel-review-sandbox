@@ -1,0 +1,14 @@
+{
+  "floors": [
+    {
+      "name": "trade_core",
+      "description": "Our trade-execution and risk-sizing core. Any change here must always get a real review — position caps, risk %, order and stop logic are load-bearing.",
+      "paths": ["demo/tradecore.py"]
+    },
+    {
+      "name": "risk_limits",
+      "description": "Position and exposure limits. Widening or removing a cap is exactly the change that must never ship unreviewed.",
+      "keywords": ["MAX_POS_PCT", "RISK_PCT", "MAX_LONGS", "MAX_SHORTS", "MIN_RR", "MIN_EFF_RR"]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "panel-review-sandbox",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Disposable sandbox to evaluate TruVerifAI Panel Review.",
+  "type": "module",
+  "scripts": {
+    "demo:risky-change": "node scripts/demo-risky-change.mjs"
+  }
+}
