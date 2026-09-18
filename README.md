@@ -23,36 +23,46 @@ browser editor opens in ~a minute. Everything below runs in its terminal.
 your copy of this repo and follow the same steps. Codespaces is just the
 easy button, the gates only need Node + Python + git.
 
-## Step 1: arm the review gates
+## Step 1: install your coding agent and sign in (your own account)
+
+`init` arms the gates on whatever agents are already installed on this machine
+(it finds them by their CLI on the PATH), so install the agent you'll use here
+and sign in with your **own** agent account first. For example, Claude Code:
+```
+npm install -g @anthropic-ai/claude-code
+claude      # sign in with your company Claude account when prompted
+```
+Any certified agent works the same way, the gates behave the same on all of
+them:
+- **Claude Code** (`claude`), the richest integration: write gate + commit gate,
+  native.
+- **Codex CLI** (`codex`), choose **Trust** if it asks about hooks.
+- **Cursor CLI**, **GitHub Copilot CLI**, **Gemini CLI**, **Antigravity**, all
+  supported; install and sign in with your account.
+
+Install the one your team uses (you don't need all of them). We don't fund agent
+sessions, bring your own login.
+
+## Step 2: arm the review gates
 
 ```
 npx @truverifai/init
 ```
-It prints a short code + a `truverif.ai` URL and waits. Open that URL in your
-browser, approve, and the gates arm on this machine. (No browser opens on the
-machine, you approve in your own browser, the way you sign a TV into a
-streaming app.) Your first login is granted **free evaluation credits**
-automatically.
+It detects your agent from Step 1, then signs you in to TruVerifAI by device
+flow: it prints a short code + a `truverif.ai` URL and waits. Open that URL in
+your own browser, enter the code, and approve. (No browser opens on the machine,
+you approve in your own browser, the way you sign a TV into a streaming app.)
+Your first login is granted **free evaluation credits** automatically.
 
-`init` detects and arms **every coding agent it finds** on the machine, plus a
-git pre-commit gate for this repo. Confirm it's live:
+`init` then installs the write gate + commit gate on your agent, plus a git
+pre-commit gate for this repo. Confirm it's live (it fires a synthetic gate to
+prove it, not just checks that files exist):
 ```
 npx @truverifai/init doctor
 ```
-
-## Step 2: sign in your coding agent (your own account)
-
-Use whichever agent your team uses, the gates work the same on all of them.
-Bring your **own** agent login (we don't fund agent sessions):
-
-- **Claude Code**, `claude` (sign in when prompted). The richest integration:
-  write gate + commit gate, native.
-- **Codex CLI**, `codex` (choose **Trust** if it asks about hooks).
-- **Cursor CLI**, **GitHub Copilot CLI**, **Gemini CLI**, **Antigravity**, all
-  supported; sign in with your account. (`init` already wrote their gate config.)
-
-Not all agents are pre-installed in the sandbox, install the one you want, then
-re-run `npx @truverifai/init` so its gate is armed.
+Green rows mean armed. Installed another agent since? Re-run
+`npx @truverifai/init` to arm it too. Full per-agent setup:
+**truverif.ai/settings/mcp**.
 
 ## Step 3: watch a gate block a risky change
 
@@ -60,11 +70,10 @@ re-run `npx @truverifai/init` so its gate is armed.
 npm run demo:risky-change
 git add -A && git commit -m "widen position cap"
 ```
-The demo widens the position-size cap in the trade core (`demo/tradecore.py`), 
-exactly the kind of change that must never ship unreviewed. The **commit gate
-stops it**, cites the `trade_core` / `risk_limits` floor you own (see
-`.truverifai/risk.json`), and routes it to a review. That's the product in one
-motion.
+The demo stages a change that warrants panel review: it widens the position-size
+cap in the trade core (`demo/tradecore.py`). The **commit gate stops it**, cites
+the `trade_core` / `risk_limits` floor you own (see `.truverifai/risk.json`), and
+routes it to a review. That's the product in one motion.
 
 Then try the rest: **`THINGS-TO-TRY.md`**.
 
